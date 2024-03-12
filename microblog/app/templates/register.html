@@ -1,0 +1,25 @@
+{% extends "base.html" %} {% block content %}
+<h1>Register</h1>
+<form class="d-f" method="post">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+  <label>Username:<input type="text" name="username" /></label>
+  {% if username_error %}
+  <span id="err" style="color: red">{{ username_error }}</span>
+  {% endif %}
+  <label class="mt-1">Email:<input type="email" name="email" /></label>
+  {% if email_error %}
+  <span id="err" style="color: red">{{ email_error }}</span>
+  {% endif %}
+  <label class="mt-1">Password:<input type="password" name="password" /></label>
+  {% if password_error %}
+  <span id="err" style="color: red">{{ password_error }}</span>
+  {% endif %}
+  <label class="mt-1"
+    >Repeat Password:<input type="password" name="re_password"
+  /></label>
+  {% if password2_error %}
+  <span id="err" style="color: red">{{ password2_error }}</span>
+  {% endif %}
+  <input class="mt-1" type="submit" value="Register" />
+</form>
+{% endblock %}
