@@ -5,13 +5,6 @@ import sqlalchemy as sa
 from app import db
 from app.models import User
 
-class LoginForm(FlaskForm):
-    username = StringField('使用者名', validators=[DataRequired()])
-    password = PasswordField('密碼', validators=[DataRequired()])
-    remember_me = BooleanField('記住我')
-    submit = SubmitField('登入')
-
-
 class EditProfileForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     about_me = TextAreaField('About me', validators=[Length(min=0, max=140)])

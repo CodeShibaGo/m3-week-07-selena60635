@@ -4,7 +4,7 @@ from datetime import datetime, timezone
 from urllib.parse import urlsplit
 import sqlalchemy as sa
 from app import app, db
-from app.forms import LoginForm, EditProfileForm
+from app.forms import EditProfileForm
 from app.models import User
 from werkzeug.security import generate_password_hash
 
@@ -28,19 +28,32 @@ def index():
 def login():
     if current_user.is_authenticated:
         return redirect(url_for('index'))
-    form = LoginForm()
-    if form.validate_on_submit():
-        user = db.session.scalar(
-            sa.select(User).from_statement(sa.text(f"SELECT * FROM user WHERE username = '{form.username.data}'")))
-        if user is None or not user.check_password(form.password.data):
+    username_error = None
+    password_error = None
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+        remember = request.form.get('remember_me')
+        # 檢查是否有填寫(required)
+        if username:
+            username_error = None
+        else:
+            username_error = "此欄位不得為空"
+        if password:
+            password_error = None
+        else:
+            password_error = "此欄位不得為空"
+        # 抓出使用者資料，查看是否有這筆資料、驗證密碼
+        user = db.session.scalar(db.select(User).from_statement(db.text(f"SELECT * FROM user WHERE  username='{username}'")))
+        if user is None or not user.check_password(password):
             flash('無效的使用者名稱或密碼')
-            return redirect(url_for('login'))
-        login_user(user, remember=form.remember_me.data)
-        next_page = request.args.get('next')
-        if not next_page or urlsplit(next_page).netloc != '':
-            next_page = url_for('index')
-        return redirect(next_page)
-    return render_template('login.html', title='登入', form=form)
+        else:
+            login_user(user, remember = remember)
+            next_page = request.args.get('next')
+            if not next_page or urlsplit(next_page).netloc != '':
+                next_page = url_for('index')
+            return redirect(next_page)
+    return render_template('login.html', title='登入', username_error=username_error, password_error=password_error)
 
 @app.route('/logout')
 def logout():
