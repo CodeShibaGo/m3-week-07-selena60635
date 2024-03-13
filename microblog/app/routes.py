@@ -201,12 +201,13 @@ def unfollow(username):
 @login_required
 def explore():
     page = request.args.get('page', 1, type=int)
-    query = sa.select(Post).order_by(Post.timestamp.desc())
-    posts = db.paginate(query, page=page,
-                        per_page=app.config['POSTS_PER_PAGE'], error_out=False)
-    next_url = url_for('explore', page=posts.next_num) \
-        if posts.has_next else None
-    prev_url = url_for('explore', page=posts.prev_num) \
-        if posts.has_prev else None
-    return render_template("index.html", title='Explore', posts=posts.items,
+    per_page = app.config['POSTS_PER_PAGE']
+    # post總數
+    posts_count = db.session.scalar(sa.text("SELECT COUNT(*) FROM post"))
+    query = sa.text(f"SELECT * FROM post ORDER BY timestamp DESC LIMIT {per_page} OFFSET {(page - 1) * per_page}")
+    posts = db.session.scalars(sa.select(Post).from_statement(query)).all()
+    # 前幾頁的資料數量 < post總數，代表後面還有post，下一頁開啟
+    next_url = url_for('explore', page=page + 1) if (page * per_page) < posts_count else None
+    prev_url = url_for('explore', page=page - 1) if page > 1 else None
+    return render_template("index.html", title='Explore', posts=posts,
                            next_url=next_url, prev_url=prev_url)
