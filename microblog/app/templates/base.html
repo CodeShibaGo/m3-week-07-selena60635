@@ -25,6 +25,7 @@
       </a>
       <a href="{{ url_for('logout') }}"> 登出 </a>
       {% endif %}
+      <a href="{{ url_for('explore') }}"> 探索 </a>
     </div>
     <hr />
     {% with messages = get_flashed_messages() %} {% if messages %}

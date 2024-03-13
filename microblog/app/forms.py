@@ -5,6 +5,9 @@ import sqlalchemy as sa
 from app import db
 from app.models import User
 
+class EmptyForm(FlaskForm):
+    submit = SubmitField('提交')
+
 class EditProfileForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     about_me = TextAreaField('About me', validators=[Length(min=0, max=140)])
@@ -20,3 +23,8 @@ class EditProfileForm(FlaskForm):
                 sa.select(User).from_statement(sa.text(f"SELECT * FROM user WHERE username = '{self.username.data}'")))
             if user is not None:
                 raise ValidationError('Please use a different username.')
+
+class PostForm(FlaskForm):
+    post = TextAreaField('說點什麼', validators=[
+        DataRequired(), Length(min=1, max=140)])
+    submit = SubmitField('提交')
