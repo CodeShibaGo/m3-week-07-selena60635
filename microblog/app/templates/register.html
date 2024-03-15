@@ -1,25 +1,68 @@
 {% extends "base.html" %} {% block content %}
 <h1>Register</h1>
-<form class="d-f" method="post">
+<form method="post">
   <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
-  <label>Username:<input type="text" name="username" /></label>
-  {% if username_error %}
-  <span id="err" style="color: red">{{ username_error }}</span>
-  {% endif %}
-  <label class="mt-1">Email:<input type="email" name="email" /></label>
-  {% if email_error %}
-  <span id="err" style="color: red">{{ email_error }}</span>
-  {% endif %}
-  <label class="mt-1">Password:<input type="password" name="password" /></label>
-  {% if password_error %}
-  <span id="err" style="color: red">{{ password_error }}</span>
-  {% endif %}
-  <label class="mt-1"
-    >Repeat Password:<input type="password" name="re_password"
-  /></label>
-  {% if password2_error %}
-  <span id="err" style="color: red">{{ password2_error }}</span>
-  {% endif %}
-  <input class="mt-1" type="submit" value="Register" />
+
+  <div class="mb-3">
+    <label class="form-label" for="username">Username:</label>
+    <input
+      class="form-control {% if username_error %} is-invalid {% endif %}"
+      id="username"
+      type="text"
+      name="username"
+    />
+
+    <span
+      class="invalid-feedback {% if username_error %} visible {% else %} invisible {% endif %}"
+    >
+      {{ username_error }}
+    </span>
+  </div>
+  <div class="mb-3">
+    <label class="form-label" for="email">Email:</label>
+    <input
+      class="form-control {% if username_error %} is-invalid {% endif %}"
+      id="email"
+      type="email"
+      name="email"
+    />
+
+    <span
+      class="invalid-feedback {% if email_error %} visible {% else %} invisible {% endif %}"
+    >
+      {{ email_error }}
+    </span>
+  </div>
+  <div class="mb-3">
+    <label class="form-label" for="password">Password:</label>
+    <input
+      class="form-control {% if username_error %} is-invalid {% endif %}"
+      id="password"
+      type="password"
+      name="password"
+    />
+    <span
+      class="invalid-feedback {% if password_error %} visible {% else %} invisible {% endif %}"
+    >
+      {{ password_error }}
+    </span>
+  </div>
+
+  <div class="mb-3">
+    <label class="form-label" for="re_password">Repeat Password:</label>
+    <input
+      class="form-control {% if username_error %} is-invalid {% endif %}"
+      id="re_password"
+      type="password"
+      name="re_password"
+    />
+    <span
+      class="invalid-feedback {% if password2_error %} visible {% else %} invisible {% endif %}"
+    >
+      {{ password2_error }}
+    </span>
+  </div>
+
+  <input class="btn btn-primary" type="submit" value="Register" />
 </form>
 {% endblock %}

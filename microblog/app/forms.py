@@ -5,6 +5,8 @@ import sqlalchemy as sa
 from app import db
 from app.models import User
 
+
+
 class EmptyForm(FlaskForm):
     submit = SubmitField('提交')
 

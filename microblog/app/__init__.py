@@ -18,6 +18,7 @@ login.login_view = 'login'
 csrf = CSRFProtect(app)
 mail = Mail(app)
 
+
 if not app.debug:
     if app.config['MAIL_SERVER']:
         auth = None
