@@ -16,7 +16,8 @@
           action="{{ url_for('follow', username=user.username) }}"
           method="post"
         >
-          {{form.hidden_tag() }} {{form.submit(value='追蹤') }}
+          {{form.hidden_tag() }} {{form.submit(value='追蹤', class='btn
+          btn-primary') }}
         </form>
       </div>
       {% else %}
@@ -25,7 +26,8 @@
           action="{{ url_for('unfollow', username=user.username) }}"
           method="post"
         >
-          {{form.hidden_tag() }} {{form.submit(value='取消追蹤') }}
+          {{form.hidden_tag() }} {{form.submit(value='取消追蹤', class='btn
+          btn-primary') }}
         </form>
       </div>
       {% endif %}

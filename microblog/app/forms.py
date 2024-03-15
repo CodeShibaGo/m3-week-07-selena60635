@@ -9,6 +9,8 @@ from app.models import User
 
 class EmptyForm(FlaskForm):
     submit = SubmitField('提交')
+    follow = SubmitField('追蹤')
+    unfollow = SubmitField('取消追蹤')
 
 class EditProfileForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
